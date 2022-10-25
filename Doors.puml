@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Client
+class Door{
+- id:String
+- numTrials : int
+- locked : boolean
++ Door(ident:String,ch : CodeHandler)
++ isLocked(): boolean
++ setLocked(locked: boolean)
++ getNumTrials(): int
++ incrementNumTrials()
++ getId(): String
++ setCodeHandler(ch : CodeHandler)
++ processCode(code : String)
++ open()
++ resetState()
+}
+Door --> CodeHandler
+
+abstract class CodeHandler{
++ CodeHandler(next : CodeHandler)
+# handleCode(code : String, door : Door)
+}
+CodeHandler --> CodeHandler
+
+class Log extends CodeHandler{
++ Log(next:CodeHandler)
+# handleCode(code: String, door : Door)
+}
+
+class Unlock extends CodeHandler{
+- codeUnlock : String
++ Unlock(codeUnlock : String, next:CodeHandler)
+# handleCode(code: String, door : Door)
+}
+class FireAlarm extends CodeHandler{
+- codeFireAlarm : String
++ FireAlarm(codeFireAlarm : String, next:CodeHandler)
+# handleCode(code: String, door : Door)
+}
+class Open extends CodeHandler{
+- codeOpen : String
++ Open(codeOpen : String, next:CodeHandler)
+# handleCode(code: String, door : Door)
+}
+class Lock extends CodeHandler{
++ Lock(next:CodeHandler)
+# handleCode(code: String, door : Door)
+}
+
+@enduml

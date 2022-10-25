@@ -1,7 +1,10 @@
 public abstract class CodeHandler {
-  public codeHandler( CodeHandler next){
-
+  CodeHandler next;
+  public CodeHandler(CodeHandler next){
+    this.next= next;
   }
-  abstract protected handleCode(String code, Door door);
+  protected void handleCode(String code, Door door){
+    next.handleCode(code,door);
+  }
 
 }

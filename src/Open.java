@@ -1,4 +1,6 @@
 public class Open extends CodeHandler {
+
+
   private String codeOpen;
   public Open(String code, CodeHandler nextHandler) {
     super(nextHandler);
@@ -7,15 +9,19 @@ public class Open extends CodeHandler {
   @Override
   public void handleCode(String code, Door door) {
     System.out.println("handle Open");
-    if (!doorLocked) {
+    if (!door.isLocked()) {
       if (codeOpen.equals(code)) {
-        resetDoorState();
+        door.resetState();
         door.open();
       } else {
-        numTrials++;
-        System.out.println(numTrials + " trials");
-        super.handleCode(code, door);
+        door.incrementNumTrials();
+        System.out.println(door.getNumTrials() + " trials");
+        if(this.next !=null){
+          super.handleCode(code,door);
+        }
       }
-    } else { /* void, can't open until unlocked */ }
+    } else {
+      System.out.println("You are trying to open a locked door, please first unlock it");
+    }
   }
 }
